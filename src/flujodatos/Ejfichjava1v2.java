@@ -4,38 +4,43 @@
  */
 package flujodatos;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
  * @author usuario
  */
-public class Ejfichjava1 {
-
+public class Ejfichjava1v2 {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
-        File fichero=new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\flujodatos\\insertar2.txt");
-        ArrayList<Integer> ListaNumeros = new ArrayList();
-        ArrayList<Integer> ListaNNumeros = new ArrayList();
+        File fichero=new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\flujodatos\\insertar3.dat");
+        ArrayList<String> ListaNomes = new ArrayList();
+        ArrayList<String> ListaNNomes = new ArrayList();
         int opcion;
 
         do {
             opcion = menu();
             switch (opcion) {
                 case 1:
-                    pedir_numeros(ListaNumeros);
+                    pedir_numeros(ListaNomes);
                     break;
                 case 2:
-                    gardar_numeros(ListaNumeros,fichero);
+                    gardar_numeros(ListaNomes,fichero);
                     break;
                 case 3:
-                    ListaNNumeros = leer_fichero(fichero);
+                    ListaNNomes = leer_fichero(fichero);
                     break;
                 case 4:
-                    ver_datos(ListaNNumeros);
+                    ver_datos(ListaNNomes);
                     break;
                 case 5:
                     engadirUn(fichero);
@@ -50,8 +55,8 @@ public class Ejfichjava1 {
     public static int menu() {
         Scanner teclado = new Scanner(System.in);
         System.out.println("Escolla una opcion");
-        System.out.println("(1): Pedir Numeros");
-        System.out.println("(2): Gardar Numeros no Ficheiro");
+        System.out.println("(1): Pedir palabraS");
+        System.out.println("(2): Gardar PalabraS no Ficheiro");
         System.out.println("(3): Leer Ficheiro.");
         System.out.println("(4): Ver Datos.");
         System.out.println("(5): Añadir un numero.");
@@ -60,22 +65,22 @@ public class Ejfichjava1 {
         return opcion;
     }
 
-    public static void pedir_numeros(ArrayList<Integer> ListaNumeros) {
+    public static void pedir_numeros(ArrayList<String> ListaNomes) {
         Scanner teclado = new Scanner(System.in);
-        int numero;
+        String palabra;
         char resposta;
         do {
             System.out.println("Introduzca o numeros a gardar na lista");
-            numero = teclado.nextInt();
-            ListaNumeros.add(numero);
+            palabra = teclado.next();
+            ListaNumeros.add(palabra);
             System.out.println("Queres engadir outro numero mais?(S/N)");
             resposta = teclado.next().charAt(0);
         } while (resposta == 'S' || resposta == 's');
 
     }
 
-    public static void gardar_numeros(ArrayList<Integer> ListaNumeros,File fichero) {
-        int numero;
+    public static void gardar_numeros(ArrayList<String> ListaPalabras,File fichero) {
+        String palabra;
         char resposta;
         FileOutputStream fos = null;
         DataOutputStream dos = null;
@@ -83,7 +88,7 @@ public class Ejfichjava1 {
             fos = new FileOutputStream(fichero);
             dos = new DataOutputStream(fos);
             for (int i = 0; i < ListaNumeros.size(); i++) {
-                fos.write(ListaNumeros.get(i));
+                fos.writeString(ListaNumeros.get(i));
             }
 
         } catch (IOException e) {
@@ -98,8 +103,8 @@ public class Ejfichjava1 {
         }
     }
 
-    public static ArrayList<Integer> leer_fichero(File fichero) {
-        ArrayList<Integer> ListaNNumeros = new ArrayList();
+    public static ArrayList<String> leer_fichero(File fichero) {
+        ArrayList<Integer> ListaNNombres = new ArrayList();
         FileInputStream fis = null;
         DataInputStream dis = null;
         int numero;
@@ -126,7 +131,7 @@ public class Ejfichjava1 {
         return ListaNNumeros;
     }
 
-    public static void ver_datos(ArrayList<Integer> ListaNNumeros) {
+    public static void ver_datos(ArrayList<String> ListaNNumeros) {
         FileInputStream fis=null;
         DataInputStream dis=null;
         int numero;
@@ -150,4 +155,6 @@ public class Ejfichjava1 {
         }
 
     }
+    }
+            
 }
