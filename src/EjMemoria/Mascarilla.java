@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,21 +25,14 @@ public class Mascarilla {
     protected int cod;
     private String tipo;
     protected String cor;
-    File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoria\\Memoria.dat");
-    FileOutputStream fos = null;
-    DataOutputStream dos = null;
+    File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoria\\Memoria14.dat");
+    
 
-    public Mascarilla(int cod, String tipo, String cor) throws FileNotFoundException, IOException {
+    public Mascarilla(int cod, String tipo, String cor) {
         this.cod = cod;
         this.tipo = tipo;
         this.cor = cor;
-        fos = new FileOutputStream(fichero, true);
-        dos = new DataOutputStream(fos);
-        dos.writeInt(this.cod);
-        dos.writeUTF(this.tipo);
-        dos.writeUTF(this.cor);
-        fos.close();
-        dos.close();
+        
     }
 
     public String getTipo() {
@@ -50,34 +45,51 @@ public class Mascarilla {
         System.out.println("O cor e: " + cor);
     }
 
-    public static ArrayList recupera() throws FileNotFoundException, IOException {
-        ArrayList<String> ListaRecuperar = new ArrayList();
-        File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoria\\Memoria.dat");
+    public static ArrayList recupera(File fichero) throws FileNotFoundException, IOException {
+        ArrayList<Mascarilla> ListaRecuperar = new ArrayList();
+        
         FileInputStream fis = null;
         DataInputStream dis = null;
+        try {
+        int codigos = 0;
+        String tipo,cor;
         fis = new FileInputStream(fichero);
         dis = new DataInputStream(fis);
-        int codigos = 0;
-        String tipo_cor;
-        try {
-            do {
-
+        while (codigos!=1) {
+                
                 codigos = dis.readInt();
-                String convertir = Integer.toString(codigos);
-                ListaRecuperar.add(convertir);
-                tipo_cor = dis.readUTF();
-                ListaRecuperar.add(tipo_cor);
-                tipo_cor = dis.readUTF();
-                ListaRecuperar.add(tipo_cor);
-
-            } while (codigos != -1);
-        } catch (EOFException e) {
-            System.out.println("Fin de archivo");
+                tipo = dis.readUTF();
+                cor = dis.readUTF();
+            Mascarilla mascarilla = new Mascarilla(codigos, tipo, cor);
+            ListaRecuperar.add(mascarilla);
         }
+        } catch (EOFException e) {
+                System.out.println("Fin de archivo");
+            }
+        fis.close();
+                dis.close();
         return ListaRecuperar;
     }
 
-    public void verTodos() {
-
+    public static void verTodos(File fichero) {
+         FileInputStream fis = null;
+        DataInputStream dis = null;
+        try{
+            fis = new FileInputStream(fichero);
+            dis = new DataInputStream(fis);
+            while(true){
+                int codigos=dis.readInt();
+                String tipo= dis.readUTF();
+                String cor=dis.readUTF();
+                System.out.println("Mascarilla:");
+                System.out.println("O codigo e: "+codigos);
+                System.out.println("O tipo e: "+tipo);
+                System.out.println("A cor e: "+cor);
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("No se encontro el fichero");;
+        } catch (IOException ex) {
+            System.out.println("Fin de fichero");;
+        }
     }
 }
