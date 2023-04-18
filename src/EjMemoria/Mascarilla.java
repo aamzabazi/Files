@@ -56,7 +56,6 @@ public class Mascarilla {
         fis = new FileInputStream(fichero);
         dis = new DataInputStream(fis);
         while (codigos!=1) {
-                
                 codigos = dis.readInt();
                 tipo = dis.readUTF();
                 cor = dis.readUTF();
@@ -91,5 +90,26 @@ public class Mascarilla {
         } catch (IOException ex) {
             System.out.println("Fin de fichero");;
         }
+    }
+    public  static int buscar_F(int codbuscar,File fichero){
+        int encontrado=-1;
+        FileInputStream fis=null;
+        DataInputStream dis=null;
+            try{
+                fis= new FileInputStream(fichero);
+                dis= new DataInputStream(fis);
+                while(encontrado!=-1){
+                if(codbuscar==dis.readInt()){
+                    encontrado=codbuscar;
+                    //break;
+                }
+                }
+            } catch (FileNotFoundException ex) {
+                System.out.println("Fichero no encontrado");
+            } catch (IOException ex) {
+                Logger.getLogger(Mascarilla.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        return encontrado;
     }
 }

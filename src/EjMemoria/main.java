@@ -84,6 +84,11 @@ public class main {
                 case 4:
                     Mascarilla.verTodos(fichero);
                     break;
+                case 5:
+                    System.out.println("Introduce o codigo da mascarilla a buscar");
+                    int codbuscar=teclado.nextInt();
+                    codbuscar=Mascarilla.buscar_F(codbuscar, fichero);
+                    break;
             }
         } while (opcion != 6);
     }
@@ -94,6 +99,7 @@ public class main {
         System.out.println("(1): Crear Mascarilla");
         System.out.println("(2): Ver datos de una Mascarilla");
         System.out.println("(3): Para Recuperar datos.");
+        System.out.println("(4): Buscar e ver mascarilla(desde fichero)");
         System.out.println("(6): Salir");
         int opcion = teclado.nextInt();
         return opcion;
