@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package EjMemoria;
+package EjMemoriaObjeto;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class main {
         ArrayList<Mascarilla> ListaMascarillas = new ArrayList();
         File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoria\\Memoria14.dat");
         FileOutputStream fos = null;
-        DataOutputStream dos = null;
+        ObjectOutputStream oos = null;
         int opcion;
         do {
             opcion = menu();
@@ -43,35 +44,36 @@ public class main {
                             break;
                         }
                     }
+                    /*
                     try{
                     fos = new FileOutputStream(fichero, true);
-                    dos = new DataOutputStream(fos);
-                    dos.writeInt(ListaMascarillas.get(posicionm).cod);
-                    dos.writeUTF(ListaMascarillas.get(posicionm).getTipo());
-                    dos.writeUTF(ListaMascarillas.get(posicionm).cor);
-                    dos.close();
+                    oos= new ObjectOutputStream(fos);
+                    oos.writeInt(ListaMascarillas.get(posicionm).cod);
+                    oos.writeUTF(ListaMascarillas.get(posicionm).getTipo());
+                    oos.writeUTF(ListaMascarillas.get(posicionm).cor);
+                    oos.close();
                     fos.close();
                     }catch(IOException e){
                         System.out.println("Error");
                     }
-                    
+                     */
                     break;
                 case 2:
-                    System.out.println("Introduzca o cod da mascarilla a visualizar");
-                    int cod_buscar = teclado.nextInt();
-                    int posicion = -1;
+                    try {
+
+                    fos = new FileOutputStream(fichero, true);
+                    oos = new ObjectOutputStream(fos);
                     for (int i = 0; i < ListaMascarillas.size(); i++) {
-                        if (cod_buscar == ListaMascarillas.get(i).cod) {
-                            posicion = i;
-                            break;
-                        }
+                        oos.writeInt(ListaMascarillas.get(i).cod);
+                        oos.writeUTF(ListaMascarillas.get(i).getTipo());
+                        oos.writeUTF(ListaMascarillas.get(i).cor);
                     }
-                    if (posicion == -1) {
-                        System.out.println("Non se encontrou");
-                    } else {
-                        ListaMascarillas.get(posicion).ver();
-                    }
-                    break;
+                    oos.close();
+                    fos.close();
+                } catch (IOException e) {
+                    System.out.println("Error");
+                }
+                break;
                 case 3:
                     ArrayList<Mascarilla> ListaRecuperada = Mascarilla.recupera(fichero);
                     System.out.println("Visualizaremos el nuevo array");
@@ -84,14 +86,6 @@ public class main {
                 case 4:
                     Mascarilla.verTodos(fichero);
                     break;
-                case 5:
-                    System.out.println("Introduce o codigo da mascarilla a buscar");
-                    int codbuscar=teclado.nextInt();
-                    codbuscar=Mascarilla.buscar_F(codbuscar, fichero);
-                    if(codbuscar==-1){
-                        System.out.println("Null");
-                    }
-                    break;
             }
         } while (opcion != 6);
     }
@@ -99,8 +93,8 @@ public class main {
     public static int menu() {
         Scanner teclado = new Scanner(System.in);
         System.out.println("Escolla una opcion");
-        System.out.println("(1): Crear Mascarilla");
-        System.out.println("(2): Ver datos de una Mascarilla");
+        System.out.println("(1): Crear Mascarilla en ArrayList");
+        System.out.println("(2): Gardar");
         System.out.println("(3): Para Recuperar datos.");
         System.out.println("(4): Buscar e ver mascarilla(desde fichero)");
         System.out.println("(6): Salir");

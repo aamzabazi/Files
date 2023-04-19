@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package EjMemoria;
+package EjMemoriaObjeto;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,37 +50,35 @@ public class Mascarilla {
         ArrayList<Mascarilla> ListaRecuperar = new ArrayList();
         
         FileInputStream fis = null;
-        DataInputStream dis = null;
+        ObjectInputStream ois = null;
         try {
         int codigos = 0;
         String tipo,cor;
         fis = new FileInputStream(fichero);
-        dis = new DataInputStream(fis);
-        while (codigos!=1) {
-                codigos = dis.readInt();
-                tipo = dis.readUTF();
-                cor = dis.readUTF();
-            Mascarilla mascarilla = new Mascarilla(codigos, tipo, cor);
-            ListaRecuperar.add(mascarilla);
+        ois = new ObjectInputStream(fis);
+        while (true) {
+            ListaRecuperar.add(((Mascarilla)ois.readObject()));
         }
         } catch (EOFException e) {
                 System.out.println("Fin de archivo");
-            }
+            } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Mascarilla.class.getName()).log(Level.SEVERE, null, ex);
+        }
         fis.close();
-                dis.close();
+                ois.close();
         return ListaRecuperar;
     }
 
     public static void verTodos(File fichero) {
-         FileInputStream fis = null;
-        DataInputStream dis = null;
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
         try{
             fis = new FileInputStream(fichero);
-            dis = new DataInputStream(fis);
+            ois = new ObjectInputStream(fis);
             while(true){
-                int codigos=dis.readInt();
-                String tipo= dis.readUTF();
-                String cor=dis.readUTF();
+                int codigos=ois.readInt();
+                String tipo= ois.readUTF();
+                String cor=ois.readUTF();
                 System.out.println("Mascarilla:");
                 System.out.println("O codigo e: "+codigos);
                 System.out.println("O tipo e: "+tipo);//Cambiar el tipo y utilizar el metodo gettipo().
@@ -91,25 +90,5 @@ public class Mascarilla {
             System.out.println("Fin de fichero");;
         }
     }
-    public  static int buscar_F(int codbuscar,File fichero){
-        int encontrado=-1;
-        FileInputStream fis=null;
-        DataInputStream dis=null;
-            try{
-                fis= new FileInputStream(fichero);
-                dis= new DataInputStream(fis);
-                while(encontrado!=-1){
-                if(codbuscar==dis.readInt()){
-                    encontrado=codbuscar;
-                    //break;
-                }
-                }
-            } catch (FileNotFoundException ex) {
-                System.out.println("Fichero no encontrado");
-            } catch (IOException ex) {
-                Logger.getLogger(Mascarilla.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        return encontrado;
-    }
+
 }
