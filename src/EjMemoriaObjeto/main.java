@@ -21,7 +21,7 @@ public class main {
     public static void main(String[] args) throws IOException {
         Scanner teclado = new Scanner(System.in);
         ArrayList<Mascarilla> ListaMascarillas = new ArrayList();
-        File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoria\\Memoria14.dat");
+        File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoriaObjeto\\Memoria.dat");
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         int opcion;
@@ -64,9 +64,7 @@ public class main {
                     fos = new FileOutputStream(fichero, true);
                     oos = new ObjectOutputStream(fos);
                     for (int i = 0; i < ListaMascarillas.size(); i++) {
-                        oos.writeInt(ListaMascarillas.get(i).cod);
-                        oos.writeUTF(ListaMascarillas.get(i).getTipo());
-                        oos.writeUTF(ListaMascarillas.get(i).cor);
+                        oos.writeObject(ListaMascarillas.get(i));
                     }
                     oos.close();
                     fos.close();

@@ -26,7 +26,7 @@ public class Mascarilla {
     public int cod;
     private String tipo;
     public String cor;
-    File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoria\\Memoria14.dat");
+    File fichero = new File("C:\\Users\\usuario\\Documents\\NetBeansProjects\\PruebasFicheros\\src\\EjMemoriaObjeto\\Memoria.dat");
     
 
     public Mascarilla(int cod, String tipo, String cor) {
@@ -57,7 +57,8 @@ public class Mascarilla {
         fis = new FileInputStream(fichero);
         ois = new ObjectInputStream(fis);
         while (true) {
-            ListaRecuperar.add(((Mascarilla)ois.readObject()));
+            Mascarilla Mascarilla1=((Mascarilla)ois.readObject());
+            ListaRecuperar.add(Mascarilla1);
         }
         } catch (EOFException e) {
                 System.out.println("Fin de archivo");
@@ -76,18 +77,18 @@ public class Mascarilla {
             fis = new FileInputStream(fichero);
             ois = new ObjectInputStream(fis);
             while(true){
-                int codigos=ois.readInt();
-                String tipo= ois.readUTF();
-                String cor=ois.readUTF();
+                Mascarilla Mascarilla1= (Mascarilla)(ois.readObject());
                 System.out.println("Mascarilla:");
-                System.out.println("O codigo e: "+codigos);
-                System.out.println("O tipo e: "+tipo);//Cambiar el tipo y utilizar el metodo gettipo().
-                System.out.println("A cor e: "+cor);
+                System.out.println("O codigo e: "+Mascarilla1.cod);
+                System.out.println("O tipo e: "+Mascarilla1.getTipo());
+                System.out.println("A cor e: "+Mascarilla1.cor);
             }
         } catch (FileNotFoundException ex) {
             System.out.println("No se encontro el fichero");;
         } catch (IOException ex) {
             System.out.println("Fin de fichero");;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Mascarilla.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

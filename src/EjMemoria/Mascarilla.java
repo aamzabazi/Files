@@ -109,7 +109,6 @@ public class Mascarilla {
             } catch (IOException ex) {
                 Logger.getLogger(Mascarilla.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         return encontrado;
     }
 }
