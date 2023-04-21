@@ -59,21 +59,12 @@ public class main {
                      */
                     break;
                 case 2:
-                    try {
-
-                    fos = new FileOutputStream(fichero, true);
-                    oos = new ObjectOutputStream(fos);
-                    for (int i = 0; i < ListaMascarillas.size(); i++) {
-                        oos.writeObject(ListaMascarillas.get(i));
-                    }
-                    oos.close();
-                    fos.close();
-                } catch (IOException e) {
-                    System.out.println("Error");
-                }
+                    Mascarilla.guardar(fichero,ListaMascarillas);
+                
                 break;
                 case 3:
-                    ArrayList<Mascarilla> ListaRecuperada = Mascarilla.recupera(fichero);
+                    ArrayList<Mascarilla> ListaRecuperada=new ArrayList();
+                    ListaRecuperada = Mascarilla.recupera(fichero);
                     System.out.println("Visualizaremos el nuevo array");
                     for (int i = 0; i < ListaRecuperada.size(); i++) {
                         System.out.println("Codigo  es: " + ListaRecuperada.get(i).cod);

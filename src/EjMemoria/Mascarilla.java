@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author usuario
  */
-public class Mascarilla {
+public class Mascarilla  {
 
     public int cod;
     private String tipo;
